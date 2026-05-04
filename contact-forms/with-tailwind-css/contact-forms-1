@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Form</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600 p-4">
+
+  <main class="w-full max-w-lg">
+    
+    <section class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-lg p-6 sm:p-8 text-white">
+
+      <header class="text-center mb-6">
+        <h1 class="text-2xl font-semibold">Contact Us</h1>
+        <p class="text-sm text-white/80 mt-1">We’d love to hear from you</p>
+      </header>
+
+      <form id="contactForm" class="space-y-4">
+
+        <!-- Name -->
+        <div>
+          <label for="name" class="block text-sm mb-1">Full Name</label>
+          <input
+            id="name"
+            type="text"
+            required
+            placeholder="John Doe"
+            class="w-full px-3 py-2 rounded-lg bg-white/20 placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/60"
+          />
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-sm mb-1">Email</label>
+          <input
+            id="email"
+            type="email"
+            required
+            placeholder="you@example.com"
+            class="w-full px-3 py-2 rounded-lg bg-white/20 placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/60"
+          />
+        </div>
+
+        <!-- Message -->
+        <div>
+          <label for="message" class="block text-sm mb-1">Message</label>
+          <textarea
+            id="message"
+            rows="4"
+            required
+            placeholder="Write your message..."
+            class="w-full px-3 py-2 rounded-lg bg-white/20 placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/60 resize-none"
+          ></textarea>
+        </div>
+
+        <!-- Button -->
+        <button
+          id="submitBtn"
+          type="submit"
+          class="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-white text-gray-800 font-medium hover:bg-gray-200 transition disabled:opacity-60"
+        >
+          <span id="btnText">Send Message</span>
+
+          <!-- Spinner -->
+          <svg id="spinner" class="hidden w-4 h-4 animate-spin" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" class="opacity-25"/>
+            <path fill="currentColor" class="opacity-75" d="M4 12a8 8 0 018-8v8z"/>
+          </svg>
+        </button>
+
+        <!-- Success Message -->
+        <p id="successMsg" class="hidden text-green-200 text-sm text-center">
+          ✅ Message sent successfully!
+        </p>
+
+      </form>
+
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("contactForm");
+    const button = document.getElementById("submitBtn");
+    const text = document.getElementById("btnText");
+    const spinner = document.getElementById("spinner");
+    const successMsg = document.getElementById("successMsg");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // UI state
+      button.disabled = true;
+      text.textContent = "Submitting...";
+      spinner.classList.remove("hidden");
+      successMsg.classList.add("hidden");
+
+      try {
+        // Simulate API request
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        form.reset();
+        successMsg.classList.remove("hidden");
+      } catch (err) {
+        console.error(err);
+      } finally {
+        button.disabled = false;
+        text.textContent = "Send Message";
+        spinner.classList.add("hidden");
+      }
+    });
+  </script>
+
+</body>
+</html>
