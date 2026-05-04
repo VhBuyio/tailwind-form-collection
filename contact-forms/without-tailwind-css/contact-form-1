@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Form</title>
+
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #4facfe, #00f2fe);
+      --glass: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.25);
+      --text: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      padding: 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      color: var(--text);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.8;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-size: 0.85rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 0.9rem;
+      transition: 0.2s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(255,255,255,0.7);
+    }
+
+    input:focus,
+    textarea:focus {
+      background: rgba(255,255,255,0.3);
+      border: 1px solid #fff;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: none;
+      background: #fff;
+      color: #333;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      background: #f0f0f0;
+    }
+
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid #ccc;
+      border-top: 2px solid #333;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .success {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #d1fae5;
+      display: none;
+    }
+
+    /* Responsive */
+    @media (min-width: 768px) {
+      .card {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="card">
+
+      <h1>Contact Us</h1>
+      <p class="subtitle">We’d love to hear from you</p>
+
+      <form id="contactForm">
+
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="John Doe" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="you@example.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" rows="4" placeholder="Write your message..." required></textarea>
+        </div>
+
+        <button type="submit" id="submitBtn">
+          <span id="btnText">Send Message</span>
+          <div class="spinner" id="spinner"></div>
+        </button>
+
+        <div class="success" id="successMsg">
+          ✅ Message sent successfully!
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("contactForm");
+    const btn = document.getElementById("submitBtn");
+    const text = document.getElementById("btnText");
+    const spinner = document.getElementById("spinner");
+    const success = document.getElementById("successMsg");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      btn.disabled = true;
+      text.textContent = "Submitting...";
+      spinner.style.display = "inline-block";
+      success.style.display = "none";
+
+      try {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        form.reset();
+        success.style.display = "block";
+      } catch (err) {
+        console.error(err);
+      } finally {
+        btn.disabled = false;
+        text.textContent = "Send Message";
+        spinner.style.display = "none";
+      }
+    });
+  </script>
+
+</body>
+</html>
